@@ -11,6 +11,7 @@ import org.openqa.selenium.WebDriver;
 import pages.TechGlobalAlertsPage;
 import pages.TechGlobalDynamicTablesPage;
 import pages.TechGlobalFrontendTestingHomePage;
+import pages.TechGlobalLoginPage;
 import utils.AlertHandler;
 import utils.Driver;
 import utils.Waiter;
@@ -21,6 +22,7 @@ public class TechGlobalSteps {
     TechGlobalFrontendTestingHomePage techGlobalFrontendTestingHomePage;
     TechGlobalDynamicTablesPage techGlobalDynamicTablesPage;
     TechGlobalAlertsPage techGlobalAlertsPage;
+    TechGlobalLoginPage techGlobalLoginPage;
 
     @Before
     public void setup(){
@@ -28,6 +30,7 @@ public class TechGlobalSteps {
         techGlobalFrontendTestingHomePage = new TechGlobalFrontendTestingHomePage();
         techGlobalDynamicTablesPage = new TechGlobalDynamicTablesPage();
         techGlobalAlertsPage = new TechGlobalAlertsPage();
+        techGlobalLoginPage = new TechGlobalLoginPage();
     }
 
     @When("user clicks on Practices dropdown in the header")
@@ -43,6 +46,7 @@ public class TechGlobalSteps {
                 break;
             case "Dynamic Tables":
             case "Alerts":
+            case "Login Form":
                 techGlobalFrontendTestingHomePage.clickOnCard(option);
                 break;
             default:
@@ -58,6 +62,9 @@ public class TechGlobalSteps {
                 break;
             case "Alerts":
                 Assert.assertEquals(headerText, techGlobalAlertsPage.headingText.getText());
+                break;
+            case "Login Form":
+                Assert.assertEquals(headerText, techGlobalLoginPage.headingText.getText());
                 break;
             default:
                 throw new NotFoundException("This option is not defined properly in the feature file!");
@@ -116,5 +123,18 @@ public class TechGlobalSteps {
         Assert.assertEquals(alertMessage, AlertHandler.getAlertText());
         Waiter.pause(2);
         AlertHandler.acceptAlert();
+    }
+
+    //Scenario 3
+    @When("user enters username as {string} and password as {string}")
+    public void userEntersUsernameAsAndPasswordAs(String username, String password) {
+        techGlobalLoginPage.username.sendKeys("johndoe");
+        techGlobalLoginPage.password.sendKeys("123456");
+        techGlobalLoginPage.loginButton.click();
+    }
+
+    @Then("user should see a {string} message")
+    public void userShouldSeeAMessage(String result) {
+        Assert.assertEquals(result, techGlobalLoginPage.errorMessage.getText());
     }
 }
