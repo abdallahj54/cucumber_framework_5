@@ -3,9 +3,9 @@ package pages;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class TechGlobalLoginPage extends TechGlobalBasePage{
+public class TechGlobalLoginFormPage extends TechGlobalBasePage{
 
-    public TechGlobalLoginPage(){
+    public TechGlobalLoginFormPage(){
         super();
     }
 
@@ -23,4 +23,7 @@ public class TechGlobalLoginPage extends TechGlobalBasePage{
 
     @FindBy(id = "error_message")
     public WebElement errorMessage;
+
+    @FindBy(id = "success_lgn")
+    public WebElement successLoginText;
 }
